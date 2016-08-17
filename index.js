@@ -15,37 +15,45 @@ app.get('/', function (req, res) {
 var connectionsRandNum = [];
 var connectionsRandUUID = [];
 
+var generateRandomDelay = function () {
+  var delay = Math.floor(Math.random() * 3001) + 500;
+  console.log(delay);
+  return delay;
+};
+
 var generateRandomNumber = function () {
   return Math.ceil(Math.random() * 100);
 };
-
-var randNum = {
-  'num': generateRandomNumber()
-};
-setInterval(function () {
+var updateRandomNumber = function () {
   randNum.num = generateRandomNumber();
   console.log('Updated rand num to', randNum.num);
   console.log('Num randNum connections:', connectionsRandNum.length);
   for (var i = 0; i < connectionsRandNum.length; i++) {
     connectionsRandNum[i].sseSend(randNum);
   }
-}, 1000);
+  setTimeout(updateRandomNumber, generateRandomDelay());
+};
+var randNum = {
+  'num': generateRandomNumber()
+};
+setTimeout(updateRandomNumber, generateRandomDelay());
 
 var generateRandomUUID = function () {
   return uuid.v4();
 };
-
-var randUUID = {
-  'uuid': generateRandomUUID()
-};
-setInterval(function () {
+var updateRandomUUID = function () {
   randUUID.uuid = generateRandomUUID();
   console.log('Updated UUID to', randUUID.uuid)
   console.log('Num UUID connections:', connectionsRandUUID.length);
   for (var i = 0; i < connectionsRandUUID.length; i++) {
     connectionsRandUUID[i].sseSend(randUUID);
   }
-}, 1000);
+  setTimeout(updateRandomUUID, generateRandomDelay());
+};
+var randUUID = {
+  'uuid': generateRandomUUID()
+};
+setTimeout(updateRandomUUID, generateRandomDelay);
 
 app.get('/randnum', function (req, res) {
   res.sseSetup();
