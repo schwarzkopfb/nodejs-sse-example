@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-sse-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewyang96/nodejs-sse-example.git"
+  },
+  "author": "Andrew Yang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewyang96/nodejs-sse-example/issues"
+  },
+  "homepage": "https://github.com/andrewyang96/nodejs-sse-example#readme",
+  "dependencies": {
+    "ejs": "^2.5.1",
+    "express": "^4.14.0"
+  }
+}
