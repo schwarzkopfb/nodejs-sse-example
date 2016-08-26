@@ -59,12 +59,20 @@ app.get('/randnum', function (req, res) {
   res.sseSetup();
   res.sseSend(randNum);
   connectionsRandNum.push(res);
+  res.on('close', function () {
+    var idx = connectionsRandNum.indexOf(res);
+    connectionsRandNum.splice(idx, 1);
+  });
 });
 
 app.get('/randuuid', function (req, res) {
   res.sseSetup();
   res.sseSend(randUUID);
   connectionsRandUUID.push(res);
+  res.on('close', function () {
+    var idx = connectionsRandUUID.indexOf(res);
+    connectionsRandUUID.splice(idx, 1);
+  });
 })
 
 app.listen(3000, function () {
