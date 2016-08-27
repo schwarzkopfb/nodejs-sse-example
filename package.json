@@ -18,6 +18,7 @@
   "homepage": "https://github.com/andrewyang96/nodejs-sse-example#readme",
   "dependencies": {
     "ejs": "^2.5.1",
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "node-uuid": "^1.4.7"
   }
 }
