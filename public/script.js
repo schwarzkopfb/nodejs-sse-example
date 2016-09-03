@@ -1,12 +1,12 @@
-var numSource = new EventSource('/randnum');
-var uuidSource = new EventSource('/randuuid');
+window.onload = function () {
+  var numSource = new EventSource('/randnum');
+  var uuidSource = new EventSource('/randuuid');
 
-numSource.addEventListener('message', function (e) {
-	var num = JSON.parse(e.data);
-  document.getElementById('randNum').innerHTML = num.num;
-});
+  numSource.onmessage = function (e) {
+    document.getElementById('randNum').innerHTML = e.data;
+  };
 
-uuidSource.addEventListener('message', function (e) {
-  var uuid = JSON.parse(e.data);
-  document.getElementById('randUUID').innerHTML = uuid.uuid;
-});
+  uuidSource.onmessage = function (e) {
+    document.getElementById('randUUID').innerHTML = e.data;
+  };
+};

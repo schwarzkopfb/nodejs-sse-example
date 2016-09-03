@@ -1,10 +1,9 @@
 var express = require('express');
-var sse = require('./sse');
+var sse = require('sse-broadcast')();
 var uuid = require('node-uuid');
 
 var app = express();
 app.use(express.static('public'));
-app.use(sse);
 app.set('views', 'views');
 app.set('view engine', 'ejs');
 
@@ -12,69 +11,44 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-var connectionsRandNum = [];
-var connectionsRandUUID = [];
+/* Routes */
+app.get('/randnum', function (req, res) {
+  sse.subscribe('randnum', res);
+});
 
+app.get('/randuuid', function (req, res) {
+  sse.subscribe('randuuid', res);
+});
+
+/* Random value generation */
 var generateRandomDelay = function () {
   var delay = Math.floor(Math.random() * 3001) + 500;
-  console.log(delay);
   return delay;
 };
 
 var generateRandomNumber = function () {
   return Math.ceil(Math.random() * 100);
 };
+var randNum = generateRandomNumber();
 var updateRandomNumber = function () {
-  randNum.num = generateRandomNumber();
-  console.log('Updated rand num to', randNum.num);
-  console.log('Num randNum connections:', connectionsRandNum.length);
-  for (var i = 0; i < connectionsRandNum.length; i++) {
-    connectionsRandNum[i].sseSend(randNum);
-  }
+  randNum = generateRandomNumber();
+  sse.publish('randnum', 'update', randNum);
   setTimeout(updateRandomNumber, generateRandomDelay());
-};
-var randNum = {
-  'num': generateRandomNumber()
 };
 setTimeout(updateRandomNumber, generateRandomDelay());
 
 var generateRandomUUID = function () {
   return uuid.v4();
 };
+var randUUID = generateRandomUUID();
 var updateRandomUUID = function () {
-  randUUID.uuid = generateRandomUUID();
-  console.log('Updated UUID to', randUUID.uuid)
-  console.log('Num UUID connections:', connectionsRandUUID.length);
-  for (var i = 0; i < connectionsRandUUID.length; i++) {
-    connectionsRandUUID[i].sseSend(randUUID);
-  }
+  randUUID = generateRandomUUID();
+  sse.publish('randuuid', 'update', randUUID);
   setTimeout(updateRandomUUID, generateRandomDelay());
-};
-var randUUID = {
-  'uuid': generateRandomUUID()
 };
 setTimeout(updateRandomUUID, generateRandomDelay);
 
-app.get('/randnum', function (req, res) {
-  res.sseSetup();
-  res.sseSend(randNum);
-  connectionsRandNum.push(res);
-  res.on('close', function () {
-    var idx = connectionsRandNum.indexOf(res);
-    connectionsRandNum.splice(idx, 1);
-  });
-});
-
-app.get('/randuuid', function (req, res) {
-  res.sseSetup();
-  res.sseSend(randUUID);
-  connectionsRandUUID.push(res);
-  res.on('close', function () {
-    var idx = connectionsRandUUID.indexOf(res);
-    connectionsRandUUID.splice(idx, 1);
-  });
-})
-
+/* Initialize server */
 app.listen(3000, function () {
   console.log('Listening on port 3000');
 });

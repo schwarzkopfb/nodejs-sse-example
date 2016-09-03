@@ -19,6 +19,7 @@
   "dependencies": {
     "ejs": "^2.5.1",
     "express": "^4.14.0",
-    "node-uuid": "^1.4.7"
+    "node-uuid": "^1.4.7",
+    "sse-broadcast": "^0.1.3"
   }
 }
