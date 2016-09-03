@@ -30,23 +30,23 @@ var generateRandomNumber = function () {
   return Math.ceil(Math.random() * 100);
 };
 var randNum = generateRandomNumber();
-var updateRandomNumber = function () {
+var messageRandomNumber = function () {
   randNum = generateRandomNumber();
-  sse.publish('randnum', 'update', randNum);
-  setTimeout(updateRandomNumber, generateRandomDelay());
+  sse.publish('randnum', 'message', randNum);
+  setTimeout(messageRandomNumber, generateRandomDelay());
 };
-setTimeout(updateRandomNumber, generateRandomDelay());
+setTimeout(messageRandomNumber, generateRandomDelay());
 
 var generateRandomUUID = function () {
   return uuid.v4();
 };
 var randUUID = generateRandomUUID();
-var updateRandomUUID = function () {
+var messageRandomUUID = function () {
   randUUID = generateRandomUUID();
-  sse.publish('randuuid', 'update', randUUID);
-  setTimeout(updateRandomUUID, generateRandomDelay());
+  sse.publish('randuuid', 'message', randUUID);
+  setTimeout(messageRandomUUID, generateRandomDelay());
 };
-setTimeout(updateRandomUUID, generateRandomDelay);
+setTimeout(messageRandomUUID, generateRandomDelay);
 
 /* Initialize server */
 app.listen(3000, function () {
