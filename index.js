@@ -32,7 +32,8 @@ var generateRandomNumber = function () {
 var randNum = generateRandomNumber();
 var messageRandomNumber = function () {
   randNum = generateRandomNumber();
-  sse.publish('randnum', 'message', randNum);
+  // sse.publish('randnum', 'update', randNum);
+  sse.publish('randnum', { data: randNum });
   setTimeout(messageRandomNumber, generateRandomDelay());
 };
 setTimeout(messageRandomNumber, generateRandomDelay());
@@ -43,7 +44,8 @@ var generateRandomUUID = function () {
 var randUUID = generateRandomUUID();
 var messageRandomUUID = function () {
   randUUID = generateRandomUUID();
-  sse.publish('randuuid', 'message', randUUID);
+  // sse.publish('randuuid', 'update', randUUID);
+  sse.publish('randuuid', { data: randUUID });
   setTimeout(messageRandomUUID, generateRandomDelay());
 };
 setTimeout(messageRandomUUID, generateRandomDelay);
